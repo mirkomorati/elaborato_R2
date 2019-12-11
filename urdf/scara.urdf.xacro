@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="scara">
+    <link name="base_link">
+        <visual>
+        <!--
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <geometry>
+                <box size="0.25 0.25 0.4" />
+            </geometry>
+        -->
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/base_link.stl" />
+            </geometry>
+            <material name="Cyan">
+                <color rgba="0 1.0 1.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/base_link.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="inner_arm">
+        <visual>
+            <!--<origin xyz="0 0.15  0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.2 0.3 0.2" />
+            </geometry>-->
+            <origin xyz="0 0 0" rpy="0 0 -1.5704" />
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/inner_arm.stl" />
+            </geometry>
+            <material name="Yellow">
+                <color rgba="1.0 1.0 0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/inner_arm.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="outer_arm">
+        <visual>
+            <!--<origin xyz="0 0.15 0.0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.15 0.3 0.15" />
+            </geometry>-->
+            <origin xyz="0 0 0" rpy="0 0 -1.5704" />
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/outer_arm.stl" />
+            </geometry>
+            <material name="Red">
+                <color rgba="1.0 0 0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/outer_arm.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="end_arm">
+        <visual>
+            <!--
+            <origin xyz="0 0.0 0.0" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="0.05" length="0.5"/>
+            </geometry>-->
+            <origin xyz="0 0 0" rpy="0 0 -1.5704" />
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/end_arm.stl" />
+            </geometry>
+            <material name="Green">
+                <color rgba="0 1.0 0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://elaborato_R2/meshes/end_arm.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="end_arm_mimic" />
+
+    <link name="end_effector" />
+
+    <joint name="joint1" type="revolute">
+        <parent link="base_link"/>
+        <child link="inner_arm"/>
+        <limit effort="1000.0" lower="-2.5" upper="2.5" velocity="0.1"/>
+        <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 1.57" />
+        <axis xyz="0 0 1" />
+    </joint>
+    <joint name="joint2" type="revolute">
+        <parent link="inner_arm"/>
+        <child link="outer_arm"/>
+        <limit effort="1000.0" lower="-2" upper="2" velocity="0.1"/>
+        <origin xyz="0.3 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <axis xyz="0 0 1" />
+    </joint>
+    <joint name="joint3" type="prismatic">
+        <parent link="outer_arm"/>
+        <child link="end_arm_mimic"/>
+        <limit effort="1000.0" lower="-0.45" upper="0" velocity="0.1"/>
+        <origin xyz="0.3 0.0 0.15" rpy="0.0 0.0 0.0" />
+        <axis xyz="0 0 1" />
+    </joint>
+    <joint name="joint4" type="revolute">
+        <parent link="end_arm_mimic"/>
+        <child link="end_arm"/>
+        <limit effort="1000.0" lower="-3" upper="3" velocity="0.1"/>
+        <origin xyz="0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <axis xyz="0 0 1" />
+    </joint>
+    <joint name="joint5" type="fixed">
+        <parent link="end_arm"/>
+        <child link="end_effector"/>
+        <origin xyz="0 0.0 -0.25" rpy="3.1415 0.0 0.0" />
+    </joint>
+</robot>

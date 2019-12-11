@@ -1,0 +1,3 @@
+<launch>
+  <node name="talker" pkg="elaborato_R2" type="fk.py" output="screen"/>
+</launch>
